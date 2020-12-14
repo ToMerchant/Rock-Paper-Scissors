@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>ROCK PAPER SCISSORS</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+
+<h1>ROCK &#183; PAPER &#183; SCISSORS</h1>
+<h4>Can you beat a mindless computer? The winner is first to 3 points.</h4>
+
+<div class="winOrLose" id="winLoseWrapper"></div>
+<div class="score" id="scoreWrapper"></div>
+
+<div class="layout">
+<button class="buttons" id="chooseRock" >✊</button>
+<button class="buttons" id="choosePaper">✋</button>
+<button class="buttons" id="chooseScissors">✌️</button>
+</div>
+
+<div class="roundNumber" id="roundWrapper"></div>
+
+<style>
+
+h1{
+    text-align: center;
+    color: #36454F;
+    font-family: Courier New; 
+    font-size: 3rem;
+    margin-top: 10vh;
+    margin-bottom: 1vh;;
+}
+h4{
+    text-align: center;
+    color: #36454F;
+    font-family: Courier New; 
+    font-size: 1.5rem;
+    margin-top: 1vh;
+    margin-bottom: 5vh;;
+}
+
+.winOrLose{
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    font-family: Courier New; 
+    margin-bottom: 2vh;
+}
+.score{
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;;
+    font-family: Courier New; 
+}
+.roundNumber{
+    text-align: center;
+    color: #36454F;
+    font-weight: bold;
+    font-size: small;
+    font-family: Courier New; 
+    margin-top: 3vh;
+}
+.buttons{
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 30vh;
+    transition: 500ms;
+}
+.body{
+    width: auto;
+    height: auto; 
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.buttons:hover{
+    transform: scale(1.2);
+}
+.layout{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 3vh;
+    margin-bottom: 5vh;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+</style>
+
+<script>
+
+let container = document.createElement('div');
+let roundNumber = document.createElement('div');
+let gameContainer = document.createElement('div');
+
+document.getElementById('winLoseWrapper').appendChild(container);
+document.getElementById('scoreWrapper').appendChild(gameContainer);
+document.getElementById('roundWrapper').appendChild(roundNumber);
+
+let rockButton = document.querySelector('#chooseRock');
+rockButton.addEventListener('click',  () => {
+  return playRound('rock');   
+});
+let paperButton = document.querySelector('#choosePaper');
+paperButton.addEventListener('click',  () => {
+  return playRound('paper');   
+});
+let scissorsButton = document.querySelector('#chooseScissors');
+scissorsButton.addEventListener('click',  () => {
+  return playRound('scissors');   
+});
+
+let round = 0;
+let playerScore = 0;
+let computerScore = 0;
+
+roundNumber.textContent = `Round number ${round}`;
+container.textContent = "Ready?";
+gameContainer.textContent = `You: [${playerScore}] Computer: [${computerScore}]`;  
+
+
+function computerPlay(){
+    let array = ['rock','paper','scissors'];
+    return array[Math.floor(Math.random()*array.length)];
+}
+
+function playRound(playerSelection){
+    round++;
+    roundNumber.textContent = `Round number ${round}`;
+
+    let computerSelection = computerPlay();
+    playerSelectionLower = playerSelection.toLowerCase();
+
+    if (playerSelectionLower == computerSelection){
+        return updateResult('draw');
+    }
+    else if ((playerSelectionLower == 'rock') && (computerSelection == 'scissors')){
+        return updateResult('win');
+    }
+    else if ((playerSelectionLower == 'rock') && (computerSelection == 'paper')){
+        return updateResult('lose');
+    }
+    else if ((playerSelectionLower == 'paper') && (computerSelection == 'rock')){
+        return updateResult('win');
+    }
+    else if ((playerSelectionLower == 'paper') && (computerSelection == 'scissors')){
+        return updateResult('lose');
+    }
+    else if ((playerSelectionLower == 'scissors') && (computerSelection == 'paper')){
+        return updateResult('win');
+    }
+    else if ((playerSelectionLower == 'scissors') && (computerSelection == 'rock')){
+        return updateResult('lose');
+    }
+}
+
+function updateResult(result){
+    if (result == 'win'){
+        container.textContent = `Your point!`;
+        playerScore++;
+        gameContainer.textContent = `You: [${playerScore}]           Computer: [${computerScore}]`;  
+        document.body.style.backgroundColor = '#5bdf6e' ; 
+        if (playerScore >= 3){
+          let alertWin = alert("\t\t\t\t\t\tWINNER!\n\nCongratulations. You beat the computer. Would you like to play again?");
+          if (alertWin == true){}
+          else    {window.location.reload(); }
+        }
+    }
+    else if (result == 'lose'){
+        container.textContent = `Computer's point!`;
+        computerScore++;
+        gameContainer.textContent = `You: [${playerScore}]           Computer: [${computerScore}]`;  
+        document.body.style.backgroundColor = '#df5b5b' ; 
+        if (computerScore >= 3){
+          let alertWin = alert("\t\t\t\t\tLOSER!\n\nOh no. The computer beat you. Would you like to play again?");
+          if (alertWin == true){}
+          else    {window.location.reload(); }
+        }
+    }
+    else if (result == 'draw'){
+        container.textContent = "Draw!";
+        document.body.style.backgroundColor = '#adacac' ; 
+    }
+}
+
+  </script>
+</body>
+</html>
+
+
+
